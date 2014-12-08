@@ -14,28 +14,25 @@ class Uri
 	
 	public function __construct() 
 	{
-		$this->route = new Route();
-		
-		$this->uri = new Uri(); 
-		
+		$this->uri = $this->getUri();
 	}
-
-	public function extractUri() 
+	
+	public function getUri() 
 	{
-		$this->uri = explode('/', $_SERVER['REQUEST_URI'] );
+		$uri = $_SERVER['REQUEST_URI']; 
 		
-		array_shift($this->uri);
-		array_shift($this->uri);
-
-		$this->setController($this->uri[0]); 		
-
-		if (isset($this->uri[1])) {
-			$this->setMethod($this->uri[1]); 
-		}
-
-		$this->setParams($this->extractParams());  
-
-		return $this->uri; 
+		
+		$uri = explode('/', $uri); 
+		
+		array_shift($uri);
+		
+		array_shift($uri);
+		
+		$uri = '/'.implode('/', $uri); 
+	 
+		return $uri; 
 	}
+
 }
+
 ?> 

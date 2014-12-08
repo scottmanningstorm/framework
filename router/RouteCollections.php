@@ -1,53 +1,31 @@
 <?php 
 
-class RouteCollections 
+class RouteClient
 {
 
-	protected $routes = array(); 
+	protected $method; 
 	
-	protected $methods;
-
-	protected $uri; 
+	protected $controller; 
 	
-	protected $actions; 
-
-	protected $num_of_routes; 
-
-	public function __construct() 
+	protected $action; 
+	
+	public function __construct($method, $controller, $action)
 	{
-		$this->num_of_routes = 0; 
-	}
-/*
-	public function addRoute($method, $action, $params)
-	{
-		$this->routes[$method][$action] = $params;  
-		$this->addMethod($method);
-		$this->addParams($params);
-		$this->addAction($action);
-	}
-*/
-	public function addRoute($method, $action, $params)
-	{
-		$this->addMethod($method);
-		$this->addParams($params);
-		$this->addAction($action);
-		$this->num_of_routes++; 
-	}
-
-	public function addMethod($method) 
-	{
-		$this->methods = $method; 
-	}
-
-	public function addUri($uri)
-	{
-		$this->uri = $uri; 
-	}
-
-	public function addAction($action)
-	{
+		$this->method = $method; 
+		$this->controller = $controller; 
 		$this->action = $action; 
 	}
+	
+	public function extractUri($uri)
+	{
+			
+	}
+	
+	public function extractaction($action)
+	{
+	
+	}
+	
 }
 
 ?> 

@@ -4,9 +4,7 @@ $paths = array(
 
 	'Controller/',
 	'Database/',
-	'Router/', 
-
-
+	'Router/',
 	); 
 
 return $paths; 

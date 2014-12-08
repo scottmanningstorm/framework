@@ -3,7 +3,7 @@
 
 class ControllerFactory 
 {
-	public static function build($className, $method, $params = array() )  
+	public static function build($method, $className, $params = null)  
 	{	
 		if (class_exists($className)) {
 			return call_user_func_array(array(new $className, $method), array($params) ); 
