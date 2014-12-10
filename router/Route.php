@@ -1,37 +1,34 @@
 <?php 
-include ("RouteCollections.php"); 
+
 class Route
 {
-	protected $routeCollections = array();
-	
-	public function __construct() 
+	public static $router = null; 
+
+	public static function getRouter() 
 	{
-		$routeCollections = new RouteCollections();
+		if (self::$router == null) {
+			self::$router = new Router();  
+		}
+		return self::$router; 
+	}
+
+	private function __construct() 
+	{
+
+	}
+
+	public static function Get($uri, $action) 
+	{
+		self::getRouter()->addRouteToCollection("GET", $uri, $action);
 	}
 	
-	public function test() 
+	public static function post($uri, $action)
 	{
-		echo "test from Route class;";
+		self::getRouter()->addRouteToCollection("POST", $uri, $action);
 	}
-	public function addGet($uri, $action) 
+
+	public static function matchRoute() 
 	{
-		$this->addRouteToCollection("GET", $uri, $action);
-	}
-	
-	public function addPost($uri, $action)
-	{
-		$this->addRouteToCollection("POST", $uri, $action);
-	}
-	
-	public function addRouteToCollection($method, $uri, $action)
-	{
-		$this->routeCollections->setMethod($method);
-		$this->routeCollections->setUri($uri); 
-		$this->routeCollections->setAction($action); 	
-	}
-	
-	public function getRouteCollections()
-	{
-		return $this->routeCollections; 
+		self::getRouter()->matchRoute(); 
 	}
 }

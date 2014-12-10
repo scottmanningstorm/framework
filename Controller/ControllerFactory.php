@@ -1,6 +1,5 @@
 <?php 
 
-
 class ControllerFactory 
 {
 	public static function build($className, $method, $params = array() )  
