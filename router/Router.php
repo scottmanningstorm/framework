@@ -15,37 +15,39 @@ class Router
 	{
 		$this->route_collection[] = new RouteClient($server_method, $uri, $action); 
 	}
-
+ 
 	public function matchRoute()
 	{
 		foreach($this->route_collection as $route) { 
-			echo 'Route collection match uri = ' . $route->match_uri .'<br />'; 
-			echo 'This uri = ' . $this->getUri() . '<br />';
-			if ($route->match_uri == $this->getUri())
-			{	 
-				die('We have a match! - Router.php - Line:  26');
-				ControllerFactory::build($route->getController(), $route->getMethod(), $route->getParams());
+
+			if ($route->getMatchUri() === $this->getUriString(true))
+			{	  
+				return ControllerFactory::build($route->getController(), $route->getMethod(), $route->getParams());
 			}
 		}
+		// If we reach here we have not matched any routes - divert to error 404 
+		ControllerFactory::build('ErrorController', 'index');
 	}
 	
-	public function getUri($removeParams = false) 
-	{	
+	public function getUriString($remove_params)
+	{
+		// grabs uri and returns a string. 
 		$uri = $_SERVER['REQUEST_URI'];
 		
-		if ($removeParams) {
+		if ($remove_params) {
 			$uri = preg_replace('/\{.*\}/', '', $uri); 
 		}
 
 		$uri = explode('/', $uri); 
 		
-		//First element of uri array will be blank and 2nd will be site root. 
+		// First element of uri array will be blank and 2nd will be site root. 
 		unset($uri[0]);  
 		unset($uri[1]); 
 
-		$uri = '/'. implode('/', $uri); 
+		$uri = '/'. implode('/', $uri); 		
 		
 		return $uri;
 	}
+
 }
 ?> 

@@ -6,29 +6,29 @@ ini_set('display_startup_errors',1);
 require_once('Autoload/AutoLoader.php'); 
 Autoloader::Autoload(); 
 
- //replace with Autoloads//
-//include ("Controller/ControllerFactory.php"); 
-//include ("router/Router.php"); 
+/* 
 
-//$route = new Router(); 
+get Root of site. 
 
-//var_dump($route->extractUri()); 
+*/ 
 
+Route::post('/', 'HomeController@index');
+Route::post('/home/{id}', 'HomeController@index');
+Route::post('/blog', 'BlogController@index');
+Route::post('/error', 'ErrorController@index');
 
+$routes = Route::getRouter()->route_collection; 
 
-Route::post('/help/index', 'HomeController@index'); 
-Route::get('/controllerBLOG/method/{id}/{title}', 'sdfsdfsd@ssdf');
-Route::get('/controllerBLOG/MEWX/{page}/{hoistory}', 'fsdf@sdfd');
+echo '<div style=text-align:center;>';
+echo 'We have ' . count($routes) .' routes avalible: <br />';
 
-//$client = new RouteClient('','',''); 
-//var_dump(Route::$router->route_collection); 
+foreach($routes as $route) {	
+	echo '<a href="http://192.168.0.38:8888/framework'.$route->getMatchUri(true).'"> '.$route->getController().' routes to ->'.$route->getMethod() .' </a> <br />';  
+}
+
+echo '</div>'; 
+echo '<br /> <br /> <br /> <br />'; 
+
 Route::matchRoute();
-//call_user_func_array(array(new test(), "t"), $p);
-//echo ("asdas"); 
-//$x = array("firstparam" => "Value 1", "second Param" => "second value");
-//$controller = ControllerFactory::build('Route', 'test', $x ); 
-
-//Route::build('/', "HomeController@index");
- 
 
 ?> 

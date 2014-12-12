@@ -2,44 +2,53 @@
 
 class RouteClient
 {
-	protected $server_method; // POST or GET
+	protected $server_method; 
 
-	public $match_uri; 
+	protected $match_uri; 
 
-	protected $method; // Function method 
+	protected $method; 
 
 	protected $controller; 
 
 	protected $params = array(); 
 
 	public function __call($method, $args) 
-	{
+	{	
+		//no need for this __call method as $this does not hold extractUri class anymore. 
 		if (method_exists($this->extract_uri, $method)) {
 			return $this->extract_uri->{$method}(implode('', $args));
+		} else { 
+			throw new Exception('No method called -'.$method.''); 
 		} 
-		//else throw new exception	
 	}
 
 	public function __construct($server_method, $uri, $action) 
 	{	
-		$this->extract_uri = new ExtractUri(); 
-
 		$this->server_method = $server_method; 
 
 		$this->match_uri = $uri; 
 		
-		$this->method = $this->extractAction($action, 0); 
-
-		$this->controller = $this->extractAction($action, 1); 
+		$this->method = $this->extractMethod($action); 
 		
-		$this->params = $this->extractParams($uri);
+		$this->controller = $this->extractController($action); 
+
+		$this->params = $this->matchParams(); 
 	}
 
-	public function extractAction($action, $return_array_element, $delimiter = '@') 
+	public function extractMethod($action, $delimiter = '@') 
+	{
+		$action = explode($delimiter, $action); 
+  
+		return $action[1]; 
+	}
+
+	public function extractController($action, $delimiter = '@') 
 	{
 		$action = explode($delimiter, $action); 
 
-		return $action[$return_array_element]; 
+		//$action = str_replace('Controller', '', $action[0]); 
+		
+		return $action[0]; 
 	}
 
 	public function extractParams($uri) 
@@ -51,10 +60,68 @@ class RouteClient
 			$uri = preg_replace('/\{/', '', $match); 
 			$uri = preg_replace('/\}/', '', $uri);
 			$uri = explode('/', $uri[0]);
+
 			return $uri; 
 		}
 
 		return false; 
+	}
+
+	public function getUriParams()
+	{	
+		// Returns an array of all params from URI. 
+		$uri = $_SERVER['REQUEST_URI'];
+
+		$uri = explode('/', $uri); 
+		
+		// First element of uri array will be blank and 2nd will be site root. 
+		unset($uri[0]);  
+		unset($uri[1]); 
+
+		// 2nd two array elements will be 'Controller/Method'
+		array_shift($uri); 
+		array_shift($uri); 
+
+		return $uri;
+	}
+
+	public function matchParams() 
+	{
+		// Matches any params passed via ROUTE::post($uri, $aciton) with the servers URI and builds an assoc array 
+		$route_params = $this->extractParams($this->match_uri);
+ 
+		$uri_params = $this->getUriParams(); 
+
+		$this->buildAssocArray($route_params, $uri_params);  	
+	}
+
+	public function setParams($values, $expected_values) 
+	{
+		$array = array(); 
+		$i=0; 
+		foreach ($values as $key => $value) {
+			$array[$expected_values[$i]] = $values;
+			$i++;
+		}
+
+	}
+
+	public function buildAssocArray($array_keys, $array_values)
+	{
+		//we are trying to merge two arrays into 1 -> what if we have different numbers..... 
+		$array = array();
+		// Build up our keys
+		$i=0;
+		foreach($array_values as $value)
+		{
+			$array[$array_keys[$i]] = $value; 
+			$i++;
+			if ($i === count($array_keys)) {
+				return $array; 
+			}
+		}
+
+		return $array; 
 	}
 
 	/**
@@ -82,9 +149,21 @@ class RouteClient
      *
      * @return string
      */
-	public function getMatchUri() 
-	{
-		return $this->match_uri; 
+	public function getMatchUri($strip_params = false) 
+	{		 
+		if(!$strip_params) {
+			return $this->match_uri;
+		} else {
+			return $this->stripParamsFromUri($this->match_uri);
+		}
+	}
+
+	public function stripParamsFromUri($uri)
+	{	
+		$uri = preg_replace('/\{.*\}/', '', $uri);
+		$param_names = explode('/', $uri); 
+		
+		return $uri; 	
 	}
 
 	/**
@@ -106,7 +185,6 @@ class RouteClient
 	{
 		return $this->params; 
 	}
-
 
 }
 
