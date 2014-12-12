@@ -19,6 +19,7 @@ Route::post('/error', 'ErrorController@index');
 
 $routes = Route::getRouter()->route_collection; 
 
+
 echo '<div style=text-align:center;>';
 echo 'We have ' . count($routes) .' routes avalible: <br />';
 

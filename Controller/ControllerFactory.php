@@ -5,9 +5,9 @@ class ControllerFactory
 	public static function build($className, $method, $params = array() )  
 	{	
 		if (class_exists($className)) { 
-			return call_user_func_array(array(new $className, $method), array('df', 'as') ); 
+			return call_user_func_array(array(new $className, $method), $params); 
 		} else {
-			call_user_func_array(array(new ErrorController, 'index'), array('df', 'as') ); 
+			call_user_func_array(array(new ErrorController, 'index'),  $params); 
 			throw new Exception("no class found with the name " . $className);
 		}
 	}
