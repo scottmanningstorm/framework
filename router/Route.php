@@ -11,11 +11,9 @@ class Route
 		}
 		return self::$router; 
 	}
-
-	private function __construct() 
-	{
-
-	}
+	
+	private function __construct() {}
+	private function __clone() {}
 
 	public static function Get($uri, $action) 
 	{

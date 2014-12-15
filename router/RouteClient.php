@@ -12,16 +12,6 @@ class RouteClient
 
 	protected $params = array(); 
 
-	public function __call($method, $args) 
-	{	
-		//no need for this __call method as $this does not hold extractUri class anymore. 
-		if (method_exists($this->extract_uri, $method)) {
-			return $this->extract_uri->{$method}(implode('', $args));
-		} else { 
-			throw new Exception('No method called -'.$method.''); 
-		} 
-	}
-
 	public function __construct($server_method, $uri, $action) 
 	{	
 		$this->server_method = $server_method; 
@@ -92,18 +82,17 @@ class RouteClient
  
 		$uri_params = $this->getUriParams(); 
 
-		$this->buildAssocArray($route_params, $uri_params);  	
+		return $this->buildAssocArray($route_params, $uri_params);  	
 	}
 
 	public function setParams($values, $expected_values) 
 	{
 		$array = array(); 
-		$i=0; 
+		$i=0;  
 		foreach ($values as $key => $value) {
 			$array[$expected_values[$i]] = $values;
 			$i++;
 		}
-
 	}
 
 	public function buildAssocArray($array_keys, $array_values)
@@ -120,12 +109,21 @@ class RouteClient
 				return $array; 
 			}
 		}
-
 		return $array; 
 	}
 
 	/**
-     * gets the method. (GET or POST)
+     * gets the server method. (GET or POST)
+     *
+     * @return string
+     */
+	public function getServerMethod() 
+	{
+		return $this->server_method; 
+	}
+	
+	/**
+     * gets the method function. 
      *
      * @return string
      */
@@ -133,7 +131,7 @@ class RouteClient
 	{
 		return $this->method; 
 	}
-	
+
 	/**
      * gets the action (method function)
      *
@@ -182,7 +180,7 @@ class RouteClient
      * @return array
      */
 	public function getParams() 
-	{
+	{	
 		return $this->params; 
 	}
 

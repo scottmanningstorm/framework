@@ -19,10 +19,17 @@ class Router
 	public function matchRoute()
 	{
 		foreach($this->route_collection as $route) { 
+			
+			// Match our server request method - making sure we compare with the same letter casing.
+			$server_method = strtoupper($_SERVER['REQUEST_METHOD']);
+			$route_method = strtoupper($route->getServerMethod());
+	
+			if ($route_method === $server_method) {
 
-			if ($route->getMatchUri() === $this->getUriString(true))
-			{	  
-				return ControllerFactory::build($route->getController(), $route->getMethod(), $route->getParams());
+				if (String::stripForwordSlashFromEnd($route->getMatchUri(true)) === String::stripForwordSlashFromEnd($this->getUriString(true)))
+				{	  
+					return ControllerFactory::build($route->getController(), $route->getMethod(), $route->getParams());
+				}
 			}
 		}
 		// If we reach here we have not matched any routes - divert to error 404 
@@ -33,21 +40,24 @@ class Router
 	{
 		// grabs uri and returns a string. 
 		$uri = $_SERVER['REQUEST_URI'];
-		
-		if ($remove_params) {
-			$uri = preg_replace('/\{.*\}/', '', $uri); 
-		}
 
 		$uri = explode('/', $uri); 
+		array_shift($uri);
+		array_shift($uri);
 		
-		// First element of uri array will be blank and 2nd will be site root. 
-		unset($uri[0]);  
-		unset($uri[1]); 
+		// we only need 0nth and 1nth element. Anyhting after element 0 & 1 will be params. 
+		if (count($uri) > 1) { 
+			$newUri[] = $uri[0]; 
+			$newUri[] = $uri[1];
+		} else {
+			$newUri = $uri; 
+		}
 
-		$uri = '/'. implode('/', $uri); 		
-		
-		return $uri;
+		$newUri = '/'. implode('/', $newUri); 		
+		$newUri = String::stripForwordSlashFromEnd($newUri); 
+		return $newUri;
 	}
 
+	
 }
 ?> 
