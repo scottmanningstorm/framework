@@ -7,7 +7,8 @@ $paths = array(
 	'Router/', 
 	'app/Controller/',
 	'Libraries/', 
-	'System/'	
+	'System/',
+	'ObjectWriter/' 	
 
 
 	); 

@@ -25,8 +25,13 @@ class Router
 			$route_method = strtoupper($route->getServerMethod());
 	
 			if ($route_method === $server_method) {
+				
+				$user_defined_route = URI::stripForwordSlashFromEnd($route->getMatchUri(true));
+				
+				$current_uri = URI::stripQueryString($this->getUriString(true));
+				$current_uri = URI::stripForwordSlashFromEnd($current_uri); 
 
-				if (String::stripForwordSlashFromEnd($route->getMatchUri(true)) === String::stripForwordSlashFromEnd($this->getUriString(true)))
+				if ($user_defined_route === $current_uri)
 				{	  
 					return ControllerFactory::build($route->getController(), $route->getMethod(), $route->getParams());
 				}
@@ -54,7 +59,7 @@ class Router
 		}
 
 		$newUri = '/'. implode('/', $newUri); 		
-		$newUri = String::stripForwordSlashFromEnd($newUri); 
+		$newUri = URI::stripForwordSlashFromEnd($newUri); 
 		return $newUri;
 	}
 
