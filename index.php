@@ -10,8 +10,15 @@ Application::Env('local');
 get Root of site. 
 */ 
 
-//$connect = new DatabaseConnection(); 
-//$connect->GetInstance();
+$db = Connection::GetInstance(); 
+
+$data = $db->query('SELECT * FROM users');
+ 
+die(var_dump($data->fetchAll()));
+
+ 
+
+//die(var_dump($statment)); 
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');

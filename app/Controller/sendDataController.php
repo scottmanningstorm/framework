@@ -2,31 +2,32 @@
 
 class sendDataController extends BaseController
 {
-	public function index() 
-	{	
-		if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    public function index() 
+    {	
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-			foreach($_POST as $key => $value) {
-				$_GET[$key] = $value; 
-			}
+      		foreach($_POST as $key => $value) {
+      			$_GET[$key] = $value; 
+      		}
 
-		}
+      	}
 
-		$obj = ObjectWriterFactory::buildObj($_SERVER['QUERY_STRING']);
-		
-		echo '<br /> Server response code = ' .$obj; 
-	}	
+      	$obj = ObjectWriterFactory::buildObj($_SERVER['QUERY_STRING']);
+      	
+      	echo '<br /> Server response code = ' .$obj; 
+    }	
 
 }
 /***************
-		REsponse codes
-		{100, "Continue"},
-		{101, "Switching Protocols"},
-		{200, "OK"},
-		{201, "Created"},
-		{202, "Accepted"},
-		{203, "Non-Authoritative Information"},
-		{204, "No Content"},
+  		REsponse codes
+      ***************
+  		{100, "Continue"},
+  		{101, "Switching Protocols"},
+  		{200, "OK"},
+  		{201, "Created"},
+  		{202, "Accepted"},
+  		{203, "Non-Authoritative Information"},
+  		{204, "No Content"},
   		{205, "Reset Content"},
   		{206, "Partial Content"},
   		{300, "Multiple Choices"},

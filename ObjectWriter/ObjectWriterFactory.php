@@ -6,10 +6,16 @@ class ObjectWriterFactory
 	// If null we build a JSON object writer by default
 	public static function buildObj($query_string, ObjectWriterInterface $Objwriter = null)
 	{	
+		$query_string = array(); 
+
 		parse_str($_SERVER['QUERY_STRING'], $query_string); 
 
-		if ($query_string['return_format'] == null) {
+		if (!isset($query_string['return_format'])) {
+			
+			$query_string['return_format'] = 'JSON'; 
+			
 			$objWriter = new JsonObjWriter(); 	
+
 		} else {
 
 			$format = $query_string['return_format'];
