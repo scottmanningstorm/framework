@@ -30,7 +30,7 @@ class Router
 				
 				$current_uri = URI::stripQueryString($this->getUriString(true));
 				$current_uri = URI::stripForwordSlashFromEnd($current_uri); 
-
+			
 				if ($user_defined_route === $current_uri)
 				{	  
 					return ControllerFactory::build($route->getController(), $route->getMethod(), $route->getParams());

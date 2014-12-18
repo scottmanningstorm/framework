@@ -3,22 +3,16 @@
 ob_start();
 
 require_once('Autoload/AutoLoader.php'); 
-Autoloader::Autoload(); 
-Application::Env('local');
 
-/* 
-get Root of site. 
-*/ 
+Autoloader::Autoload(); 
+
+Application::Env('local');
 
 $db = Connection::GetInstance(); 
 
-$data = $db->query('SELECT * FROM users');
- 
-die(var_dump($data->fetchAll()));
+$query = new ActiveRecord(); 
+$o = $query->getAssoc('SELECT * FROM users');
 
- 
-
-//die(var_dump($statment)); 
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
@@ -31,6 +25,7 @@ Route::get('/error', 'ErrorController@index');
 Route::post('/sendData', 'sendDataController@index');
 Route::get('/sendData', 'sendDataController@index');
 
-Route::matchRoute(); 
+//Route::matchRoute(); 
+
 
 ?> 

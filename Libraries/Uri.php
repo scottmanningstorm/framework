@@ -20,16 +20,24 @@ class URI
 		return $string; 
 	}
 
-	// Strips any unwanted forwardslash from the end of a given uri. 
+	// Strips any unwanted forwardslash from the end of a given uri.  
 	public static function stripForwordSlashFromEnd($uri)
 	{
-		return self::stripCharFromEnd($uri, '/'); 
+		if ($uri !== '/') {
+			$uri = self::stripCharFromEnd($uri, '/'); 
+		}
+
+		return $uri;  
 	}
 
 	// Strips any unwanted forwardslash from the end of a given uri. 
 	public static function stripForwordSlashFromStart($uri)
 	{
-		return self::stripCharFromStart($uri, '/'); 
+		if ($uri != '/') {
+			$uri = self::stripCharFromStart($uri, '/'); 
+		}
+
+		return $uri; 
 	}
 	// If no uri has been passed over use current URI. 
 	public static function stripQueryString($uri=null)

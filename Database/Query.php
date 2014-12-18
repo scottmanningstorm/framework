@@ -2,18 +2,30 @@
 
 class Query
 {
-	public function __construct() 
-	{
-		
-	}
+	protected $db;
 
-	public function rawQuery() 
-	{
+	public function __construct() 
+	{	
+		$this->db = Connection::GetInstance(); 
+	}	
+
+	/**
+	 * Processes a query and binds any params to the query.  
+	 *
+	 * @access public
+	 * @param string $query 
+	 * @param array $binds
+	 * @return PDO Object 
+	 */
+	public function process($query, $binds = array())  
+	{	
+		$query_ = $this->db->prepare($query); 
 		
-	}
-	public function process() 
-	{
-		
+		$query_ = $this->bindParams($query_, $binds);
+
+		$query_->execute();
+
+		return $query_; 
 	}
 
 	/**
@@ -24,9 +36,58 @@ class Query
 	 * @param String $query
 	 * @return String  
 	 */
-	public function bindParams($params, $query) 
+	public function bindParams($query, $params = array()) 
 	{
+			
+		foreach ($params as $key => $param) {
+			
+			$query = $query->bindParam(':'.$key, $param, $this->getPdoDataType($param)); 
 		
+		}
+ 
+		return $query; 
+	}
+
+	/**
+	 * Takes a parameter and returns it's datatype for binding values to our query. 
+	 *
+	 * @access private
+	 * @param Mixed $param
+	 * @return 
+	 */
+	private function getPdoDataType($param) 
+	{
+		$return_type;  
+		
+		$param = gettype($param);
+
+	 	switch($param)
+	 	{
+	 		default: 
+	 		{
+	 			return PDO::PARAM_STR; 
+	 		}
+	 		
+	 		case 'boolean' : 
+	 		{
+	 			return PDO::PARAM_BOOL;  
+	 		}
+	 		
+	 		case 'string' :
+	 		{
+	 			return PDO::PARAM_STR;  
+	 		}
+	 		
+	 		case 'double' :
+	 		{
+	 			return PDO::PARAM_STR;  
+		 	}
+		 	
+		 	case 'integer' :
+	 		{
+	 			return PDO::PARAM_INT;  
+		 	}
+	 	} 
 	}
 
 	/**
@@ -37,9 +98,13 @@ class Query
 	 * @param MixedArray $binds 
 	 * @return Associative array
 	 */
-	public function getAssoc($query, $params) 
+	public function getAssoc($query, $params=array()) 
 	{
-		
+		$results = $this->process($query, $params); 
+
+		$results = $results->fetchAll();
+
+		return $results; 
 	}
 
 	/**
@@ -50,39 +115,15 @@ class Query
 	 * @param MixedArray $binds
 	 * @return Object
 	 */
-	public function getObj() 
+	public function getObj($query, $params=array()) 
 	{
-		
+		$results = $this->process($query, $params); 
+
+		$results = $results->fetch(PDO::FETCH_OBJ);
+
+		return $results; 
 	}
-
-	/**
-	 *  
-	 *
-	 * @access 
-	 * @param 
-	 * @return  
-	 */
-	public function update() 
-	{
-		
-	}
-
-	/**
-	 *  
-	 *
-	 * @access 
-	 * @param 
-	 * @return  
-	 */
-	public function insert() 
-	{
-
-	}	
-
-	public function delete() 
-	{
-		
-	}
+	
 }
 
 ?>

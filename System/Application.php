@@ -1,7 +1,9 @@
 <?php 
 
 class Application
-{
+{	
+	protected static $env; 
+
 	public static function Env($setting)
 	{
 		$env = strtolower($setting); 
@@ -14,9 +16,11 @@ class Application
 			
 			case 'local': 	
 			{
+				self::$env = 'local';
+
 				error_reporting(E_ALL);   	     
 				ini_set('display_errors', 1);    
-
+				
 				break; 
 			} 
 			
@@ -30,6 +34,12 @@ class Application
 
 		}
 	}
+
+	public static function getEnv()
+	{
+		return self::$env; 	
+	}
+
 }
 
 ?>

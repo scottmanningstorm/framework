@@ -4,7 +4,10 @@ class ErrorController extends BaseController
 {
 	public function index() 
 	{	
-		$this->renderView('Error/Deadlink');
+		// Weird glitch where root has a space prepended to it. Seems to be intermittent...
+		$this->addVar('root', Paths::Root()); 
+
+		$this->renderView('Error/Error');
 	}
 }
 

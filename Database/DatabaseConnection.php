@@ -1,6 +1,6 @@
 <?php 
 
-class Connection 
+class Connect 
 {
 	protected static $db_name; 
 
@@ -44,6 +44,15 @@ class Connection
 	public static function Connect($settings) 
 	{	
 		return new PDO($settings['db_driver'].':host='.$settings['db_host'].';dbname='.$settings['db_name'], $settings['db_user'], $settings['db_password']);
+	}
+
+	public static function SetConnectionSettings($settings)
+	{	
+		self::$db_name = $settings['db_name'];
+		self::$db_host = $settings['db_host'];
+		self::$db_user = $settings['db_user'];
+		self::$db_password = $settings['db_password'];
+		self::$db_driver = $settings['db_driver'];
 	}
 }
 
