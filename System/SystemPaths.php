@@ -4,6 +4,7 @@ $paths = array(
 
 	'Controller/',
 	'Database/',
+	'Database/Grammer/',
 	'Router/', 
 	'app/Controller/',
 	'Libraries/', 

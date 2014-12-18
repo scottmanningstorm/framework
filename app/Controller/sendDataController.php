@@ -7,7 +7,7 @@ class sendDataController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
       		foreach($_POST as $key => $value) {
-      			$_GET[$key] = $value; 
+      			$_GET[$key] = $value;// dont apend to $_GET add to another array.  
       		}
 
       	}

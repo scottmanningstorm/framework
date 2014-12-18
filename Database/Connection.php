@@ -14,7 +14,7 @@ class Connection
 
 	private static $instance = null; 
 
-	public static function GetInstance() 
+	public static function getInstance() 
 	{
 		if (self::$instance == null)
 		{
@@ -22,7 +22,7 @@ class Connection
 			
 				$settings = include('System/dbSettings.php'); 
 
-				self::$instance = self::Connect($settings); 
+				self::$instance = self::connect($settings); 
 			
 			}
 
@@ -41,7 +41,7 @@ class Connection
 		return self::$instance; 
 	}
 		
-	public static function Connect($settings) 
+	public static function connect($settings) 
 	{	
 		return new PDO($settings['db_driver'].':host='.$settings['db_host'].';dbname='.$settings['db_name'], $settings['db_user'], $settings['db_password']);
 	}

@@ -123,7 +123,7 @@ class Query
 
 		return $results; 
 	}
-	
+
 }
 
 ?>

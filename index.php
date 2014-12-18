@@ -6,13 +6,18 @@ require_once('Autoload/AutoLoader.php');
 
 Autoloader::Autoload(); 
 
-Application::Env('local');
+Application::env('local');
 
-$db = Connection::GetInstance(); 
+$db = Connection::getInstance(); 
+$active = new ActiveRecord(); 
 
+  
+$active->where('id', '=', '7');
+
+/*
 $query = new ActiveRecord(); 
 $o = $query->getAssoc('SELECT * FROM users');
-
+*/
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
@@ -26,6 +31,5 @@ Route::post('/sendData', 'sendDataController@index');
 Route::get('/sendData', 'sendDataController@index');
 
 //Route::matchRoute(); 
-
 
 ?> 
