@@ -2,8 +2,8 @@
 
 interface ObjectWriterInterface
 {
-	public function write($obj);
-	public function sendObj($obj, $send_address=null);
+	public function dumpData($data);
+	public function sendObj($data, $send_address=null);
 }
 
 ?>

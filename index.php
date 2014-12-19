@@ -8,11 +8,9 @@ Autoloader::Autoload();
 
 Application::env('local');
 
-$db = Connection::getInstance(); 
-$active = new ActiveRecord(); 
-
-  
-$active->where('id', '=', '7');
+// $db = Connection::getInstance(); 
+// $active = new ActiveRecord();   
+// $active->where('id', '=', '7');
 
 /*
 $query = new ActiveRecord(); 
@@ -30,6 +28,6 @@ Route::get('/error', 'ErrorController@index');
 Route::post('/sendData', 'sendDataController@index');
 Route::get('/sendData', 'sendDataController@index');
 
-//Route::matchRoute(); 
+Route::matchRoute(); 
 
 ?> 

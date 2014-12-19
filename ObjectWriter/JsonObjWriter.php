@@ -2,20 +2,21 @@
 
 class JsonObjWriter implements ObjectWriterInterface
 {
-	public function write($obj) 
+	public function dumpData($data) 
 	{
-		echo json_encode($obj); 
+		echo json_encode($data); 
 	}	
 	
-	public function sendObj($obj, $send_address=null) 
+	public function sendObj($data, $send_address=null) 
 	{
 		if ($send_address == null) {
-			$this->write($obj);
+
+			$this->dumpData($data);
+
 		} else {
-			//Send obj off to address. 
+			// Send obj off to address. 
 		}
 
-		return http_response_code(); 
 	}
 
 }

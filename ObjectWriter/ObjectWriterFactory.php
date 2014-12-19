@@ -1,38 +1,25 @@
 <?php 
 
 class ObjectWriterFactory
-{	
-	// Returns an object builder object based on the $objWriter value.
-	// If null we build a JSON object writer by default
-	public static function buildObj($query_string, ObjectWriterInterface $Objwriter = null)
-	{	
-		$query_string = array(); 
+{
+	// Do we need to return a default object if no objecct is found or is it best to throw an error? 	
+	public static function build($class_name)
+	{
+		$class_name = ucfirst($class_name);
 
-		parse_str($_SERVER['QUERY_STRING'], $query_string); 
-
-		if (!isset($query_string['return_format'])) {
+		$class_name = $class_name.'ObjWriter'; 
+		 
+		if (class_exists($class_name)) {
 			
-			$query_string['return_format'] = 'JSON'; 
-			
-			$objWriter = new JsonObjWriter(); 	
+			return new $class_name();
 
 		} else {
-
-			$format = $query_string['return_format'];
 			
-			$format = strtolower($format); 
-			
-			$format = Ucwords($format);
-
-			$class = $format.'ObjWriter';
-			
-			$objWriter = new $class();
+			throw new Exception("No class found for ".$class_name.$e->getMessage());
+		
 		}
-
-		return $objWriter->sendObj($query_string);
-
-	} 
-
+	
+	}
 }
 
 ?>
