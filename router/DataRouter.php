@@ -29,6 +29,10 @@ class DataRouter
 		return $this->data['return_format'];
 	}
 
+	public function sendData($address) 
+	{
+		die(var_dump($this->data)); 
+	}
 }
 
 ?>

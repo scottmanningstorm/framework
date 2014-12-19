@@ -24,7 +24,8 @@ Route::get('/blog', 'BlogController@index');
 Route::post('/blog/add/{id}', 'BlogController@add');
 Route::get('/error', 'ErrorController@index');
 
-// Routes to route data off to 3rd party app. 
+// Routes to send data off to 3rd party apps. 
+Route::get('/sendData/incoming/{data}', 'sendDataController@incoming');
 Route::post('/sendData', 'sendDataController@index');
 Route::get('/sendData', 'sendDataController@index');
 
