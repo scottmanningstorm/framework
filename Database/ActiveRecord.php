@@ -17,8 +17,6 @@ class ActiveRecord
 		$this->query_builder = new QueryBuilder(); 
 	}
 
-	
-
 	public function update($value, $id=null) 
 	{
 		

@@ -1,10 +1,15 @@
-build interface and abstract Grammer classes - Use this to finally build our query statments.
-
 incorporate the coding challenge with persitant storage, (db). Db will hold set of URLs. draw these from db and iterate over to send over data. 
 
 
 
 
+
+
+
+
+
+
+build interface and abstract Grammer classes - Use this to finally build our query statments.
 
 Start adding more grammer to our gramer class - 
 Other Mysql grammer - Join, Union + UNION ALL, Distinct, Having, Aliases, IN
