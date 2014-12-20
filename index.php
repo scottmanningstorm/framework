@@ -1,18 +1,35 @@
 <?php 
+
 ob_start();
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
 
 require_once('Autoload/AutoLoader.php'); 
+
 Autoloader::Autoload(); 
 
-Route::post('/home', 'HomeController@index'); 
-Route::post('/', 'test@printStuff'); 
+Application::env('local');
 
-Route::startRouting(); 
+// $db = Connection::getInstance(); 
+// $active = new ActiveRecord();   
+// $active->where('id', '=', '7');
 
-//var_dump(Route::getRouter()->collections[0]->getUri());
-//Route::build('/', "HomeController@index");
+/*
+$query = new ActiveRecord(); 
+$o = $query->getAssoc('SELECT * FROM users');
+*/
+
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
+Route::get('/home/post', 'HomeController@index');
+Route::get('/blog', 'BlogController@index');
+Route::post('/blog/add/{id}', 'BlogController@add');
+Route::get('/error', 'ErrorController@index');
+
+// Routes to send data off to 3rd party apps. 
+Route::get('/sendData/incoming/{data}', 'sendDataController@incoming');
+Route::post('/sendData', 'sendDataController@index');
+Route::get('/sendData', 'sendDataController@index');
+
+Route::matchRoute(); 
 
 
 ?> 

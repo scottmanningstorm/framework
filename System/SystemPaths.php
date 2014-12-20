@@ -4,7 +4,13 @@ $paths = array(
 
 	'Controller/',
 	'Database/',
-	'Router/',
+	'Database/Grammer/',
+	'Router/', 
+	'app/Controller/',
+	'Libraries/', 
+	'System/',
+	'ObjectWriter/' 	
+	
 	); 
 
 return $paths; 

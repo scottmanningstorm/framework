@@ -2,31 +2,32 @@
 
 class Route
 {
-	protected static $instance = null;
-	
-	public static function getRouter()
+
+	public static $router = null; 
+
+	public static function getRouter() 
 	{
-		if (self::$instance == null) { 
-		
-			self::$instance = new Router(); 
-		
+		if (self::$router == null) {
+			self::$router = new Router();  
 		}
-		
-		return self::$instance; 
-	}  
-	
-	public function post($uri, $action)
-	{
-		self::getRouter()->post($uri, $action); 
+		return self::$router; 
 	}
 	
-	public function get($uri, $action)
+	private function __construct() {}
+	private function __clone() {}
+
+	public static function Get($uri, $action) 
 	{
-		self::getRouter()->get($uri, $action); 
+		self::getRouter()->addRouteToCollection("GET", $uri, $action);
 	}
 	
-	public function startRouting()
+	public static function post($uri, $action)
 	{
-		self::getRouter()->matchCurrentRoute();
+		self::getRouter()->addRouteToCollection("POST", $uri, $action);
+	}
+
+	public static function matchRoute() 
+	{
+		self::getRouter()->matchRoute(); 
 	}
 }
